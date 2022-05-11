@@ -115,7 +115,7 @@ function Index() {
                         type="primary"
                         onClick={add}
                       >
-                        新增空白行
+                        新增技能条
                       </Button>
                     </React.Fragment>
                   )}
@@ -173,33 +173,35 @@ function Index() {
                               label={'简介'}
                             />
                           </div>
-                          <div>
-                            <ArrayField field="hightlight">
-                              {({ add, arrayFields, addWithInitValue }) => (
-                                <React.Fragment>
-                                  <Button
-                                    className="mt-4"
-                                    theme="light"
-                                    type="primary"
-                                    onClick={add}
-                                  >
-                                    新增工作两点
-                                  </Button>
-                                  {arrayFields.map(
-                                    ({ field, key, remove }, i) => (
-                                      <div key={key}>
-                                        <div className="mt-2">
-                                          <Form.TextArea
-                                            field={`${field}[name]`}
-                                            label={'简介'}
-                                          />
-                                        </div>
-                                      </div>
-                                    )
-                                  )}
-                                </React.Fragment>
-                              )}
-                            </ArrayField>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight1'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight2'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight3'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight4'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight5'}
+                            ></Form.Input>
                           </div>
                         </div>
                       ))}
@@ -209,7 +211,107 @@ function Index() {
                         type="primary"
                         onClick={add}
                       >
-                        新增空白行
+                        新增公司
+                      </Button>
+                    </React.Fragment>
+                  )}
+                </ArrayField>
+              </Section>
+              <Section text={'项目经验'} className="mt-4">
+                <ArrayField field="effects">
+                  {({ add, arrayFields, addWithInitValue }) => (
+                    <React.Fragment>
+                      {arrayFields.map(({ field, key, remove }, i) => (
+                        <div key={key}>
+                          <div
+                            className="mt-4"
+                            style={{ width: 1000, display: 'flex' }}
+                          >
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'项目名称'}
+                              style={{ width: 200, marginRight: 16 }}
+                            ></Form.Input>
+                            <Form.Select
+                              style={{ width: 200 }}
+                              field={`${field}[name]`}
+                              allowCreate={true}
+                              multiple={true}
+                              label="角色"
+                              filter={true}
+                              onChange={(v) => console.log(v)}
+                              defaultActiveFirstOption
+                            ></Form.Select>
+                            <Form.DatePicker
+                              type="dateRange"
+                              density="compact"
+                              label="工作年月"
+                              style={{ width: 260 }}
+                              field={`${field}[name]`}
+                            />
+
+                            <Button
+                              type="danger"
+                              theme="borderless"
+                              onClick={remove}
+                              style={{ margin: 12 }}
+                            ></Button>
+                          </div>
+                          <Form.Select
+                            style={{ width: 400 }}
+                            field={`${field}[name]`}
+                            allowCreate={true}
+                            multiple={true}
+                            label="技术栈"
+                            filter={true}
+                            onChange={(v) => console.log(v)}
+                            defaultActiveFirstOption
+                          ></Form.Select>
+                          <div className="mt-2">
+                            <Form.TextArea
+                              field={`${field}[name]`}
+                              label={'简介'}
+                            />
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight1'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight2'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight3'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight4'}
+                            ></Form.Input>
+                          </div>
+                          <div className="mt-2">
+                            <Form.Input
+                              field={`${field}[name]`}
+                              label={'highlight5'}
+                            ></Form.Input>
+                          </div>
+                        </div>
+                      ))}
+                      <Button
+                        className="mt-4"
+                        theme="light"
+                        type="primary"
+                        onClick={add}
+                      >
+                        新增项目
                       </Button>
                     </React.Fragment>
                   )}
