@@ -3,6 +3,7 @@ lockfileVersion: 5.3
 specifiers:
   '@commitlint/cli': ^16.2.4
   '@commitlint/config-conventional': ^16.2.4
+  '@douyinfe/semi-icons': ^2.10.1
   '@douyinfe/semi-ui': ^2.10.0
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
@@ -36,6 +37,7 @@ specifiers:
   vite-plugin-pages: ^0.23.0
 
 dependencies:
+  '@douyinfe/semi-icons': 2.10.1_react@18.1.0
   '@douyinfe/semi-ui': 2.10.0_dd5346d96c16c0aadfa6cad1ff4d1193
   '@unocss/reset': 0.32.13
   ahooks: 3.3.10_react@18.1.0
@@ -576,6 +578,16 @@ packages:
 
   /@douyinfe/semi-icons/2.10.0_react@18.1.0:
     resolution: {integrity: sha512-VTmOgQZmRjUjC1PlyDlSLUyj0U5MwR9ZKuILd8wN1cWvETuu2Y6mv0XAjq1hnbLUNMfs1en1FEjrLj/XWXeNFw==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime-corejs3': 7.17.9
+      classnames: 2.3.1
+      react: 18.1.0
+    dev: false
+
+  /@douyinfe/semi-icons/2.10.1_react@18.1.0:
+    resolution: {integrity: sha512-UWvUbC3l/NkFdxZIjoz9lTY33BOxuHRc5Q9mC+xoz7oY9MVEfMhBQvrziy29tKBEeNwvAbiVwrUI+Zl2Yze07A==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:

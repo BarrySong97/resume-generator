@@ -11,6 +11,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@douyinfe/semi-icons": "^2.10.1",
     "@douyinfe/semi-ui": "^2.10.0",
     "@unocss/reset": "^0.32.13",
     "ahooks": "^3.3.10",
