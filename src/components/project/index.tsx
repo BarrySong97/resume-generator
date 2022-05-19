@@ -1,8 +1,13 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import { Project } from '../../pages';
 
-export default function project() {
+export interface ProjectProps {
+  project: Project[];
+  onChange: (project: Project[]) => void;
+}
+const ProjectComp: FC<ProjectProps> = ({ project: Project, onChange }) => {
   const [visible, setVisible] = useState(false);
   const onClose = () => {
     setVisible(false);
@@ -57,7 +62,7 @@ export default function project() {
         <Form layout="horizontal">
           <Form.Input field={'name'} label={'公司名'}></Form.Input>
           <Form.Input
-            style={{ width: 80 }}
+            style={{ width: 130 }}
             field={'role'}
             label={'角色'}
           ></Form.Input>
@@ -135,4 +140,5 @@ export default function project() {
       </Modal>
     </div>
   );
-}
+};
+export default ProjectComp;

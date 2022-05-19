@@ -1,7 +1,11 @@
 import { Form } from '@douyinfe/semi-ui';
-import React from 'react';
-
-export default function BaiscInfo() {
+import React, { FC } from 'react';
+import { BasicInfo } from '../../pages';
+export interface BasicInfoProps {
+  basicInfo: BasicInfo;
+  onChange: (basicInfo: BasicInfo) => void;
+}
+const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
   return (
     <div>
       <Form>
@@ -89,4 +93,5 @@ export default function BaiscInfo() {
       </Form>
     </div>
   );
-}
+};
+export default BaiscInfo;

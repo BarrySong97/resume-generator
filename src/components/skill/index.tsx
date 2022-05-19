@@ -1,8 +1,13 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import { ArrayField, Button, Form } from '@douyinfe/semi-ui';
-import React from 'react';
+import React, { FC } from 'react';
+import { Skill } from '../../pages';
 
-export default function Skill() {
+export interface SkillProps {
+  skill: Skill[];
+  onChange: (skill: Skill) => void;
+}
+const SkillComp: FC<SkillProps> = ({ skill, onChange }) => {
   return (
     <div>
       <Form>
@@ -52,4 +57,5 @@ export default function Skill() {
       </Form>
     </div>
   );
-}
+};
+export default SkillComp;

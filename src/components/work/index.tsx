@@ -1,8 +1,13 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
+import { Work } from '../../pages';
 
-export default function Work() {
+export interface WorkProps {
+  work: Work[];
+  onChange: (work: Work[]) => void;
+}
+const WorkComp: FC<WorkProps> = ({ work, onChange }) => {
   const [visible, setVisible] = useState(false);
   const onClose = () => {
     setVisible(false);
@@ -58,16 +63,16 @@ export default function Work() {
         <Form layout="horizontal">
           <Form.Input field={'name'} label={'公司名'}></Form.Input>
           <Form.Input
-            style={{ width: 80 }}
+            style={{ width: 130 }}
             field={'role'}
             label={'角色'}
           ></Form.Input>
-          <Form.Input
-            style={{ width: 80 }}
-            field={'loc'}
-            label={'地点'}
-          ></Form.Input>
-          <div className="mt-2">
+          <div className="flex mt-2">
+            <Form.Input
+              style={{ width: 100 }}
+              field={'loc'}
+              label={'地点'}
+            ></Form.Input>
             <Form.DatePicker
               type="dateRange"
               density="compact"
@@ -127,4 +132,5 @@ export default function Work() {
       </Modal>
     </div>
   );
-}
+};
+export default WorkComp;
