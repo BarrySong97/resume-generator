@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 import BaiscInfo from '../BasicInfo';
 import Skill from '../skill';
 import Work from '../work';
-import ProjectComp from '../project';
+import ProjectInfo from '../project';
 
 export default function SidePopup() {
   return (

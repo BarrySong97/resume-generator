@@ -5,9 +5,9 @@ import { Skill } from '../../pages';
 
 export interface SkillProps {
   skill: Skill[];
-  onChange: (skill: Skill) => void;
+  onChange: (skill: Skill[]) => void;
 }
-const SkillComp: FC<SkillProps> = ({ skill, onChange }) => {
+const SkillInfo: FC<SkillProps> = ({ skill, onChange }) => {
   return (
     <div>
       <Form>
@@ -31,7 +31,6 @@ const SkillComp: FC<SkillProps> = ({ skill, onChange }) => {
                     label="关键词"
                     filter={true}
                     className="mr-2"
-                    onChange={(v) => console.log(v)}
                     defaultActiveFirstOption
                   ></Form.Select>
                   <Button
@@ -58,4 +57,4 @@ const SkillComp: FC<SkillProps> = ({ skill, onChange }) => {
     </div>
   );
 };
-export default SkillComp;
+export default SkillInfo;

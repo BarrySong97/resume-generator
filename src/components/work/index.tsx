@@ -7,7 +7,7 @@ export interface WorkProps {
   work: Work[];
   onChange: (work: Work[]) => void;
 }
-const WorkComp: FC<WorkProps> = ({ work, onChange }) => {
+const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
   const [visible, setVisible] = useState(false);
   const onClose = () => {
     setVisible(false);
@@ -133,4 +133,4 @@ const WorkComp: FC<WorkProps> = ({ work, onChange }) => {
     </div>
   );
 };
-export default WorkComp;
+export default WorkInfo;

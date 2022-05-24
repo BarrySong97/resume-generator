@@ -1,5 +1,5 @@
-import { Form } from '@douyinfe/semi-ui';
-import React, { FC } from 'react';
+import { Button, Form, useFormApi } from '@douyinfe/semi-ui';
+import React, { FC, useEffect, useRef } from 'react';
 import { BasicInfo } from '../../pages';
 export interface BasicInfoProps {
   basicInfo: BasicInfo;
@@ -8,7 +8,10 @@ export interface BasicInfoProps {
 const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
   return (
     <div>
-      <Form>
+      <Form
+        initValues={basicInfo}
+        onValueChange={(v) => onChange(v as BasicInfo)}
+      >
         <div className="flex mt-4">
           <Form.Input
             field="name"
@@ -34,7 +37,7 @@ const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
             <Form.Select.Option value="female">女</Form.Select.Option>
           </Form.Select>
           <Form.Input
-            field="year"
+            field="workAge"
             className="mr-4"
             placeholder={'5'}
             label="工作年限"
@@ -48,7 +51,6 @@ const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
             className="mr-4"
             type="month"
             style={{ width: 195 }}
-            initValue={new Date()}
           ></Form.DatePicker>
           <Form.Input
             field="phone"
@@ -68,7 +70,7 @@ const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
           />
           <Form.Input
             style={{ width: 195 }}
-            field="collegeName"
+            field="schoolName"
             label="学校名称"
             className="mr-4"
           />
@@ -83,7 +85,7 @@ const BaiscInfo: FC<BasicInfoProps> = ({ onChange, basicInfo }) => {
           <Form.Select
             className="mr-4"
             initValue={'本科'}
-            field="Education"
+            field="education"
             label="最高学历"
           >
             <Form.Select.Option value="本科">本科</Form.Select.Option>

@@ -1,9 +1,8 @@
 import './index.css';
 import { Button, SideSheet, TabPane, Tabs } from '@douyinfe/semi-ui';
-import React, { useState } from 'react';
-import Work from '../components/work';
-import Skill from '../components/skill';
-import ProjectComp from '../components/project';
+import WorkInfo from '../components/work';
+import SkillInfo from '../components/skill';
+import ProjectInfo from '../components/project';
 import BaiscInfo from '../components/BasicInfo';
 export interface BasicInfo {
   name: string;
@@ -86,6 +85,11 @@ function Index() {
   const change = () => {
     setVisible(!visible);
   };
+  const { basicInfo, skill, work, project } = resume;
+
+  useEffect(() => {
+    console.log(resume);
+  }, [resume]);
   return (
     <div className="flex">
       <Button onClick={change}>Open SideSheet</Button>
@@ -98,30 +102,33 @@ function Index() {
         <Tabs type="line">
           <TabPane tab="基本信息" itemKey="1">
             <BaiscInfo
-              basicInfo={resume.basicInfo}
-              onChange={(basicInfo) => setResume({ ...resume, basicInfo })}
+              basicInfo={basicInfo}
+              onChange={(basicInfo) => {
+                setResume({ ...resume, basicInfo: { ...basicInfo } });
+              }}
             />
           </TabPane>
           <TabPane tab="专业技能" itemKey="2">
-            <Skill
-              skill={resume.skill}
+            <SkillInfo
+              skill={skill}
               onChange={(skill) => setResume({ ...resume, skill })}
             />
           </TabPane>
           <TabPane tab="工作经验" itemKey="3">
-            <Work
-              work={resume.work}
+            <WorkInfo
+              work={work}
               onChange={(work) => setResume({ ...resume, work })}
             />
           </TabPane>
           <TabPane tab="项目经验" itemKey="4">
-            <ProjectComp
-              project={resume.project}
+            <ProjectInfo
+              project={project}
               onChange={(project) => setResume({ ...resume, project })}
             />
           </TabPane>
         </Tabs>
       </SideSheet>
+      <div>{JSON.stringify(resume)}</div>
     </div>
   );
 }

@@ -7,7 +7,7 @@ export interface ProjectProps {
   project: Project[];
   onChange: (project: Project[]) => void;
 }
-const ProjectComp: FC<ProjectProps> = ({ project: Project, onChange }) => {
+const ProjectInfo: FC<ProjectProps> = ({ project: Project, onChange }) => {
   const [visible, setVisible] = useState(false);
   const onClose = () => {
     setVisible(false);
@@ -85,7 +85,6 @@ const ProjectComp: FC<ProjectProps> = ({ project: Project, onChange }) => {
               label="技术栈"
               maxTagCount={6}
               filter={true}
-              onChange={(v) => console.log(v)}
               defaultActiveFirstOption
             ></Form.Select>
           </div>
@@ -141,4 +140,4 @@ const ProjectComp: FC<ProjectProps> = ({ project: Project, onChange }) => {
     </div>
   );
 };
-export default ProjectComp;
+export default ProjectInfo;
