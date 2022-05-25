@@ -4,6 +4,7 @@ import WorkInfo from '../components/work';
 import SkillInfo from '../components/skill';
 import ProjectInfo from '../components/project';
 import BaiscInfo from '../components/BasicInfo';
+import { useEffect, useState } from 'react';
 export interface BasicInfo {
   name: string;
   age: number;
@@ -35,6 +36,8 @@ export interface Project {
   name: string;
   role: string;
   techStack: string[];
+  startDate: Date;
+  endDate: Date;
   desc: string;
   highlight: string[];
 }
@@ -75,6 +78,8 @@ const initInfo: ResumeInfo = {
       role: 'security',
       techStack: ['redux', 'react'],
       desc: 'test something evil',
+      startDate: new Date('2021-03'),
+      endDate: new Date('2022-04'),
       highlight: ['test sothing evil']
     }
   ]
@@ -87,15 +92,13 @@ function Index() {
   };
   const { basicInfo, skill, work, project } = resume;
 
-  useEffect(() => {
-    console.log(resume);
-  }, [resume]);
   return (
     <div className="flex">
       <Button onClick={change}>Open SideSheet</Button>
       <SideSheet
         width={550}
         title="简历表单"
+        keepDOM={true}
         visible={visible}
         onCancel={change}
       >
@@ -104,7 +107,7 @@ function Index() {
             <BaiscInfo
               basicInfo={basicInfo}
               onChange={(basicInfo) => {
-                setResume({ ...resume, basicInfo: { ...basicInfo } });
+                setResume({ ...resume, basicInfo });
               }}
             />
           </TabPane>
@@ -129,6 +132,7 @@ function Index() {
         </Tabs>
       </SideSheet>
       <div>{JSON.stringify(resume)}</div>
+      <mark>123</mark>
     </div>
   );
 }

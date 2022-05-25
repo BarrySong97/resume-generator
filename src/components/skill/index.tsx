@@ -1,6 +1,6 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import { ArrayField, Button, Form } from '@douyinfe/semi-ui';
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Skill } from '../../pages';
 
 export interface SkillProps {
@@ -10,14 +10,19 @@ export interface SkillProps {
 const SkillInfo: FC<SkillProps> = ({ skill, onChange }) => {
   return (
     <div>
-      <Form>
-        <ArrayField field="skill">
+      <Form
+        onValueChange={(v) => {
+          const { skill } = v;
+          onChange([...skill]);
+        }}
+      >
+        <ArrayField initValue={skill} field="skill">
           {({ add, arrayFields, addWithInitValue }) => (
             <React.Fragment>
               {arrayFields.map(({ field, key, remove }, i) => (
                 <div key={key} className="flex justify-center items-center">
                   <Form.Input
-                    field={`${field}[name]`}
+                    field={`${field}[skillCategoryName]`}
                     label={'分类名'}
                     style={{ width: 130 }}
                     className="mr-4"
@@ -25,7 +30,7 @@ const SkillInfo: FC<SkillProps> = ({ skill, onChange }) => {
                   <Form.Select
                     maxTagCount={4}
                     style={{ width: 311 }}
-                    field={`${field}[keywords]`}
+                    field={`${field}[skillKeywords]`}
                     allowCreate={true}
                     multiple={true}
                     label="关键词"

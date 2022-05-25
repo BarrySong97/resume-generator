@@ -1,49 +1,74 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
-import React, { FC, useState } from 'react';
+import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
+import dayjs from 'dayjs';
+import React, { FC, useRef, useState } from 'react';
 import { Project } from '../../pages';
 
 export interface ProjectProps {
   project: Project[];
   onChange: (project: Project[]) => void;
 }
-const ProjectInfo: FC<ProjectProps> = ({ project: Project, onChange }) => {
+const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
   const [visible, setVisible] = useState(false);
+  const ref = useRef<FormApi>(null);
   const onClose = () => {
+    const api = ref.current;
+    if (api) {
+      const values = api.getValues();
+      const { desc, stack, name, role, highlight, year } = values;
+      const newProject: Project = {
+        desc,
+        techStack: stack,
+        name,
+        role,
+        startDate: year[0],
+        endDate: year[1],
+        highlight: highlight.map((v: { name: string }) => v.name)
+      };
+      onChange([...project, newProject]);
+    }
+
     setVisible(false);
+  };
+  const renderProjectList = () => {
+    return project.map((v) => (
+      <div key={v.name} className="cursor-pointer companyBlock p-2">
+        <div
+          style={{
+            color: 'var(--semi-color-text-2)'
+          }}
+        >
+          <div className="companyInfo ">
+            <div className="basicInfo">
+              <span className="text-lg leading-6 font-medium text-gray-900">
+                {v.name}
+              </span>
+              <span className="ml-2 opacity-90">{v.role}</span>
+            </div>
+            <div className="timeLocInfo mt-2">
+              <span className="opacity-50 text-sm">
+                {`${dayjs(v.startDate).format('YYYY 年 MM 月')} - ${dayjs(
+                  v.endDate
+                ).format('YYYY 年 MM 月')}`}
+              </span>
+            </div>
+          </div>
+          <div className="mt-2 text-black">{renderTechStack(v.techStack)}</div>
+          <div className="companyDesc mt-2 desc text-sm  font-normal">
+            {v.desc}
+          </div>
+        </div>
+      </div>
+    ));
+  };
+  const renderTechStack = (stack: string[]) => {
+    return stack.join(' / ');
   };
   return (
     <div>
       <div>
-        <div className="cursor-pointer companyBlock p-2">
-          <p
-            style={{
-              color: 'var(--semi-color-text-2)'
-            }}
-          >
-            <div className="companyInfo ">
-              <div className="basicInfo">
-                <span className="text-lg leading-6 font-medium text-gray-900">
-                  T病毒项目
-                </span>
-                <span className="ml-2 opacity-90">截留子</span>
-              </div>
-              <div className="timeLocInfo mt-2">
-                <span className="opacity-50 text-sm">
-                  2021 年 3 月 - 2024 年 4 月
-                </span>
-              </div>
-            </div>
-            <div className="mt-2 text-black">
-              Redux / Umi / dva / Ant Design / Spring Cloud
-            </div>
-            <div className="companyDesc mt-2 desc text-sm  font-normal">
-              Semi Design
-              设计系统包含设计语言以及一整套可复用的前端组件，帮助设计师与开发者更容易地打造高质量的、用户体验一致的、符合设计规范的
-              Web 应用。
-            </div>
-          </p>
-        </div>
+        <div>{renderProjectList()}</div>
         <Button
           onClick={() => setVisible(true)}
           className="mt-4"
@@ -59,7 +84,12 @@ const ProjectInfo: FC<ProjectProps> = ({ project: Project, onChange }) => {
         onOk={onClose}
         onCancel={onClose}
       >
-        <Form layout="horizontal">
+        <Form
+          getFormApi={(api) => {
+            ref.current = api;
+          }}
+          layout="horizontal"
+        >
           <Form.Input field={'name'} label={'公司名'}></Form.Input>
           <Form.Input
             style={{ width: 130 }}
@@ -96,7 +126,7 @@ const ProjectInfo: FC<ProjectProps> = ({ project: Project, onChange }) => {
             />
           </div>
           <div className="mt-2 ">
-            <ArrayField field="skill">
+            <ArrayField field="highlight">
               {({ add, arrayFields, addWithInitValue }) => (
                 <React.Fragment>
                   <div
