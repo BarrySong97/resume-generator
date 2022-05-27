@@ -1,4 +1,5 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
+import './index.css';
 import { ArrayField, Button, Form, Modal, useFormApi } from '@douyinfe/semi-ui';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Work } from '../../pages';
@@ -39,11 +40,24 @@ const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
             }}
           >
             <div className="companyInfo ">
-              <div className="basicInfo">
-                <span className="text-lg leading-6 font-medium text-gray-900">
-                  {v.companyName}
-                </span>
-                <span className="ml-2 opacity-90">{v.role}</span>
+              <div className="basicInfo flex items-center justify-between">
+                <div>
+                  <span className="text-lg leading-6 font-medium text-gray-900">
+                    {v.companyName}
+                  </span>
+                  <span className="ml-2 opacity-90">{v.role}</span>
+                </div>
+
+                <Button
+                  type="danger"
+                  theme="borderless"
+                  onClick={() => {
+                    onChange(
+                      work.filter((w) => w.companyName !== v.companyName)
+                    );
+                  }}
+                  icon={<IconMinusCircle />}
+                ></Button>
               </div>
               <div className="timeLocInfo mt-2">
                 <span className="opacity-50 text-sm">
@@ -66,7 +80,7 @@ const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
   };
   return (
     <div>
-      <div>{renderCompanyList()}</div>
+      <div className="workListContainer">{renderCompanyList()}</div>
       <Button
         onClick={() => setVisible(true)}
         className="mt-4"

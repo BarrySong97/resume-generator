@@ -1,4 +1,5 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
+import './index.css';
 import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import dayjs from 'dayjs';
@@ -40,11 +41,21 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
           }}
         >
           <div className="companyInfo ">
-            <div className="basicInfo">
-              <span className="text-lg leading-6 font-medium text-gray-900">
-                {v.name}
-              </span>
-              <span className="ml-2 opacity-90">{v.role}</span>
+            <div className="basicInfo flex justify-between items.center">
+              <div>
+                <span className="text-lg leading-6 font-medium text-gray-900">
+                  {v.name}
+                </span>
+                <span className="ml-2 opacity-90">{v.role}</span>
+              </div>
+              <Button
+                type="danger"
+                theme="borderless"
+                onClick={() => {
+                  onChange(project.filter((p) => p.name !== v.name));
+                }}
+                icon={<IconMinusCircle />}
+              ></Button>
             </div>
             <div className="timeLocInfo mt-2">
               <span className="opacity-50 text-sm">
@@ -68,7 +79,7 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
   return (
     <div>
       <div>
-        <div>{renderProjectList()}</div>
+        <div className="projectListContainer">{renderProjectList()}</div>
         <Button
           onClick={() => setVisible(true)}
           className="mt-4"
