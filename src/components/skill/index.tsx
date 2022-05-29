@@ -13,7 +13,8 @@ const SkillInfo: FC<SkillProps> = ({ skill, onChange }) => {
       <Form
         onValueChange={(v) => {
           const { skill } = v;
-          onChange([...skill]);
+
+          onChange([...skill.filter((v: Skill) => v)]);
         }}
       >
         <ArrayField initValue={skill} field="skill">

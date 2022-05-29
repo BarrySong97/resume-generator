@@ -12,29 +12,35 @@ export interface WorkProps {
 const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
   const [visible, setVisible] = useState(false);
   const ref = useRef<FormApi>(null);
-  const onClose = () => {
-    const api = ref.current;
-    if (api) {
-      const values = api.getValues();
-      const { desc, loc, name, role, highlight, year } = values;
-      const newWork: Work = {
-        desc,
-        loc,
-        companyName: name,
-        role,
-        startDate: year[0],
-        endDate: year[1],
-        highlight: highlight.map((v: { name: string }) => v.name)
-      };
-      onChange([...work, newWork]);
+  const onClose = (type: 'close' | 'save') => {
+    if (type === 'save') {
+      const api = ref.current;
+      if (api) {
+        const values = api.getValues();
+        const { desc, loc, name, role, highlight, year } = values;
+        const newWork: Work = {
+          desc,
+          loc,
+          companyName: name,
+          role,
+          startDate: year[0],
+          endDate: year[1],
+          highlight: highlight.map((v: { name: string }) => v.name)
+        };
+        onChange([...work, newWork]);
+      }
     }
     setVisible(false);
   };
   const renderCompanyList = () => {
     return work.map((v) => {
       return (
-        <div key={v.companyName} className="cursor-pointer companyBlock p-2">
+        <div
+          key={v.companyName}
+          className="cursor-pointer companyBlock rounded-lg p-2 hover:bg-gray-100"
+        >
           <div
+            className="p-1"
             style={{
               color: 'var(--semi-color-text-2)'
             }}

@@ -1,3 +1,46 @@
 body {
-  background-color: #f3f4f6;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, 'Noto Sans SC',
+    sans-serif;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+}
+
+.resume {
+  max-width: 50em;
+}
+
+.page {
+  padding: 2rem 10rem;
+}
+
+.blockTitle {
+  display: inline-block;
+  padding: 2px 12px 0 3px;
+  font-weight: bold;
+  color: white !important;
+  background: black !important;
+}
+
+.blockCard {
+  padding: 0.8rem 0 0.8rem 1rem;
+}
+
+.basicInfoItem {
+  margin-bottom: 0.5rem;
+}
+
+.basicInfoItem span {
+  font-weight: 500;
+}
+
+.workItemDate {
+  font-size: 85%;
+  line-height: 1.5;
+  color: #777;
+}
+
+ul {
+  margin-top: 0;
+  list-style-type: circle;
 }

@@ -3,7 +3,7 @@ import './index.css';
 import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import dayjs from 'dayjs';
-import React, { FC, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { Project } from '../../pages';
 
 export interface ProjectProps {
@@ -12,30 +12,61 @@ export interface ProjectProps {
 }
 const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
   const [visible, setVisible] = useState(false);
+  const [editItem, setEditItem] = useState<Project | null>();
   const ref = useRef<FormApi>(null);
-  const onClose = () => {
-    const api = ref.current;
-    if (api) {
-      const values = api.getValues();
-      const { desc, stack, name, role, highlight, year } = values;
-      const newProject: Project = {
-        desc,
-        techStack: stack,
-        name,
-        role,
-        startDate: year[0],
-        endDate: year[1],
-        highlight: highlight.map((v: { name: string }) => v.name)
-      };
-      onChange([...project, newProject]);
+  const onClose = (type: 'close' | 'save') => {
+    if (type === 'save') {
+      const api = ref.current;
+      if (api) {
+        const values = api.getValues();
+        const { desc, stack, name, role, highlight, year } = values;
+        const newProject: Project = {
+          id: project.length,
+          desc,
+          techStack: stack,
+          name,
+          role,
+          startDate: year[0],
+          endDate: year[1],
+          highlight: highlight.map((v: { name: string }) => v.name)
+        };
+        if (editItem) {
+          const oldItem = project.find((v) => v.id === editItem.id);
+          if (oldItem) {
+            oldItem.desc = newProject.desc;
+            oldItem.endDate = newProject.endDate;
+            oldItem.startDate = newProject.startDate;
+            oldItem.role = newProject.role;
+            oldItem.name = newProject.name;
+            oldItem.highlight = newProject.highlight;
+            oldItem.techStack = newProject.techStack;
+          }
+          setEditItem(null);
+        } else {
+          onChange([...project, newProject]);
+        }
+      }
     }
-
     setVisible(false);
   };
   const renderProjectList = () => {
     return project.map((v) => (
-      <div key={v.name} className="cursor-pointer companyBlock p-2">
+      <div
+        onClick={() => {
+          setVisible(true);
+          const formValue = {
+            year: [v.startDate, v.endDate],
+            stack: v.techStack,
+            ...v,
+            highlight: v.highlight.map((v) => ({ name: v }))
+          };
+          setEditItem(formValue);
+        }}
+        key={v.name}
+        className="cursor-pointer companyBlock p-2 rounded-lg p-2 hover:bg-gray-100"
+      >
         <div
+          className="p-1"
           style={{
             color: 'var(--semi-color-text-2)'
           }}
@@ -51,7 +82,8 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
               <Button
                 type="danger"
                 theme="borderless"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   onChange(project.filter((p) => p.name !== v.name));
                 }}
                 icon={<IconMinusCircle />}
@@ -90,18 +122,19 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
         </Button>
       </div>
       <Modal
-        title="添加公司"
+        title="添加项目"
         visible={visible}
-        onOk={onClose}
-        onCancel={onClose}
+        onOk={() => onClose('save')}
+        onCancel={() => onClose('close')}
       >
         <Form
+          initValues={editItem}
           getFormApi={(api) => {
             ref.current = api;
           }}
           layout="horizontal"
         >
-          <Form.Input field={'name'} label={'公司名'}></Form.Input>
+          <Form.Input field={'name'} label={'项目名'}></Form.Input>
           <Form.Input
             style={{ width: 130 }}
             field={'role'}
