@@ -1,6 +1,13 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import './index.css';
-import { ArrayField, Button, Form, Modal, useFormApi } from '@douyinfe/semi-ui';
+import {
+  ArrayField,
+  Button,
+  Form,
+  Modal,
+  Notification,
+  useFormApi
+} from '@douyinfe/semi-ui';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Work } from '../../pages';
 import dayjs from 'dayjs';
@@ -12,12 +19,13 @@ export interface WorkProps {
 const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
   const [visible, setVisible] = useState(false);
   const ref = useRef<FormApi>(null);
-  const onClose = (type: 'close' | 'save') => {
+  const onClose = async (type: 'close' | 'save') => {
     if (type === 'save') {
       const api = ref.current;
       if (api) {
-        const values = api.getValues();
+        const values = await api.validate();
         const { desc, loc, name, role, highlight, year } = values;
+
         const newWork: Work = {
           desc,
           loc,
@@ -107,22 +115,29 @@ const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
           }}
           layout="horizontal"
         >
-          <Form.Input field={'name'} label={'公司名'}></Form.Input>
+          <Form.Input
+            label={{ text: '公司名', required: true }}
+            rules={[{ required: true, message: '请输入公司名称' }]}
+            field={'name'}
+          ></Form.Input>
           <Form.Input
             style={{ width: 130 }}
             field={'role'}
-            label={'角色'}
+            rules={[{ required: true, message: '说一下你在里面是什么牛马' }]}
+            label={{ text: '角色', required: true }}
           ></Form.Input>
           <div className="flex mt-2">
             <Form.Input
               style={{ width: 100 }}
               field={'loc'}
-              label={'地点'}
+              rules={[{ required: true, message: '在哪工作' }]}
+              label={{ text: '地点', required: true }}
             ></Form.Input>
             <Form.DatePicker
               type="dateRange"
               density="compact"
-              label="工作年月"
+              label={{ text: '工作年月', required: true }}
+              rules={[{ required: true, message: '工作了多久' }]}
               style={{ width: 260 }}
               field={'year'}
             />
@@ -131,7 +146,8 @@ const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
             <Form.TextArea
               style={{ width: 376 }}
               field={'desc'}
-              label={'简介'}
+              rules={[{ required: true, message: '介绍一下公司' }]}
+              label={{ text: '简介', required: true }}
             />
           </div>
           <div className="mt-2 ">
@@ -151,6 +167,7 @@ const WorkInfo: FC<WorkProps> = ({ work, onChange }) => {
                           field={`${field}[name]`}
                           noLabel
                           placeholder={`hightlight${i + 1}`}
+                          rules={[{ required: true, message: '添加了就输入' }]}
                           style={{ width: 326 }}
                         ></Form.Input>
                         <Button

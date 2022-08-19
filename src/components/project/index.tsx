@@ -1,6 +1,12 @@
 import { IconMinusCircle } from '@douyinfe/semi-icons';
 import './index.css';
-import { ArrayField, Button, Form, Modal } from '@douyinfe/semi-ui';
+import {
+  ArrayField,
+  Button,
+  Form,
+  Modal,
+  Notification
+} from '@douyinfe/semi-ui';
 import { FormApi } from '@douyinfe/semi-ui/lib/es/form';
 import dayjs from 'dayjs';
 import React, { FC, useEffect, useRef, useState } from 'react';
@@ -14,12 +20,18 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
   const [visible, setVisible] = useState(false);
   const [editItem, setEditItem] = useState<Project | null>();
   const ref = useRef<FormApi>(null);
-  const onClose = (type: 'close' | 'save') => {
+  const onClose = async (type: 'close' | 'save') => {
     if (type === 'save') {
       const api = ref.current;
       if (api) {
-        const values = api.getValues();
+        const values = await api.validate();
         const { desc, stack, name, role, highlight, year } = values;
+        if (!highlight) {
+          Notification.open({
+            content: '项目干了什么好事不说一下，点一下highlight',
+            duration: 3
+          });
+        }
         const newProject: Project = {
           id: project.length,
           desc,
@@ -134,18 +146,24 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
           }}
           layout="horizontal"
         >
-          <Form.Input field={'name'} label={'项目名'}></Form.Input>
+          <Form.Input
+            rules={[{ required: true, message: '请输入项目名称' }]}
+            label={{ text: '项目名', required: true }}
+            field={'name'}
+          ></Form.Input>
           <Form.Input
             style={{ width: 130 }}
+            rules={[{ required: true, message: '请输入角色' }]}
+            label={{ text: '角色', required: true }}
             field={'role'}
-            label={'角色'}
           ></Form.Input>
 
           <div className="mt-2">
             <Form.DatePicker
               type="dateRange"
               density="compact"
-              label="工作年月"
+              rules={[{ required: true, message: '请选择工作年月' }]}
+              label={{ text: '工作年月', required: true }}
               style={{ width: 260 }}
               field={'year'}
             />
@@ -156,7 +174,8 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
               field={'stack'}
               allowCreate={true}
               multiple={true}
-              label="技术栈"
+              rules={[{ required: true, message: '用了什么技术说一下' }]}
+              label={{ text: '技术栈', required: true }}
               maxTagCount={6}
               filter={true}
               defaultActiveFirstOption
@@ -165,8 +184,9 @@ const ProjectInfo: FC<ProjectProps> = ({ project, onChange }) => {
           <div className="mt-2">
             <Form.TextArea
               style={{ width: 376 }}
+              rules={[{ required: true, message: '请介绍一下这个项目！' }]}
               field={'desc'}
-              label={'简介'}
+              label={{ text: '简介', required: true }}
             />
           </div>
           <div className="mt-2 ">
