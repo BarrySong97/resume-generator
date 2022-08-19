@@ -17,6 +17,9 @@ body {
 .blockTitle {
   display: inline-block;
   padding: 2px 12px 0 3px;
+
+  /* font-weight: 500; */
+  font-size: 1em;
   font-weight: bold;
   color: white !important;
   background: black !important;
@@ -26,12 +29,18 @@ body {
   padding: 0.8rem 0 0.8rem 1rem;
 }
 
-.basicInfoItem {
-  margin-bottom: 0.5rem;
+.baiscInfoItem {
+  margin-bottom: 0.6rem;
+  font-size: 14px;
 }
 
-.basicInfoItem span {
-  font-weight: 500;
+.skill .blockCard div {
+  margin-bottom: 0.7rem;
+}
+
+.skill .blockCard strong {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .workItemDate {

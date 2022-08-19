@@ -6,8 +6,9 @@ import SkillInfo from '../components/skill';
 import ProjectInfo from '../components/project';
 import BaiscInfo from '../components/BasicInfo';
 import { useEffect, useRef, useState } from 'react';
+import '../assets/font/msyahei-normal.js';
 import dayjs from 'dayjs';
-import { IconCamera, IconEdit, IconPrint } from '@douyinfe/semi-icons';
+import { IconEdit, IconPrint } from '@douyinfe/semi-icons';
 export interface BasicInfo {
   name: string;
   age: number;
@@ -53,18 +54,28 @@ export interface ResumeInfo {
 }
 const initInfo: ResumeInfo = {
   basicInfo: {
-    name: 'Barry Song',
-    age: 26,
+    name: '宋天健',
+    age: 25,
     gender: 'male',
     workAge: 3,
     birth: new Date('1997-10-17'),
-    phone: '121324324234',
+    phone: '15285900082',
     email: 'BarrySong97@gmail.com',
     schoolName: '上海电机学院',
     major: '软件工程',
     education: '本科'
   },
-  skill: [{ skillCategoryName: 'react', skillKeywords: ['redux', 'umi'] }],
+  skill: [
+    { skillCategoryName: '语言基础', skillKeywords: ['redux', 'umi'] },
+    { skillCategoryName: '开发工具', skillKeywords: ['redux', 'umi'] },
+    { skillCategoryName: '英语能力', skillKeywords: ['redux', 'umi'] },
+    { skillCategoryName: 'React相关', skillKeywords: ['redux', 'umi'] },
+    {
+      skillCategoryName: '前端库',
+      skillKeywords: ['React', 'axios', 'Redux', 'React-Router']
+    },
+    { skillCategoryName: '跨平台', skillKeywords: ['Electron', 'React Native'] }
+  ],
   work: [
     {
       companyName: 'Umbrella Corporation',
@@ -89,7 +100,9 @@ const initInfo: ResumeInfo = {
     }
   ]
 };
-const doc = new jsPDF();
+const doc = new jsPDF('p', 'px', 'a4');
+
+doc.setFont('msyahei', 'normal');
 function Index() {
   const [visible, setVisible] = useState(false);
   const [resume, setResume] = useState<ResumeInfo>(initInfo);
@@ -97,12 +110,6 @@ function Index() {
     setVisible(!visible);
   };
   const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    doc.html(ref.current, {
-      x: 10,
-      y: 10
-    });
-  }, []);
   const { basicInfo, skill, work, project } = resume;
   return (
     <div>
@@ -126,7 +133,22 @@ function Index() {
             aria-label="截屏"
           />
         </div>
-        <div ref={ref} className="resume">
+        <div
+          ref={(ref) => {
+            if (ref) {
+              doc.html(ref, {
+                x: 0,
+                y: 0,
+                margin: [40, 0, 0, 80]
+                // autoPaging: 'text',
+              });
+            }
+          }}
+          style={{
+            fontFamily: 'msyahei'
+          }}
+          className="resume"
+        >
           <div>
             <div className="baiscInfo">
               <div className="blockTitle">基本信息</div>

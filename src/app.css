@@ -6,6 +6,11 @@
   --c-scrollbar-hover: #bbb;
 }
 
+@font-face {
+  font-family: msyahei;
+  src: url('./assets/font/msyahei.ttf');
+}
+
 ::-webkit-scrollbar {
   width: 6px;
 }
