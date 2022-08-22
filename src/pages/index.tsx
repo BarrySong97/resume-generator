@@ -102,7 +102,7 @@ const initInfo: ResumeInfo = {
 };
 const doc = new jsPDF('p', 'px', 'a4');
 
-doc.setFont('msyahei', 'normal');
+doc.setFont('msyahei');
 function Index() {
   const [visible, setVisible] = useState(false);
   const [resume, setResume] = useState<ResumeInfo>(initInfo);
@@ -139,7 +139,11 @@ function Index() {
               doc.html(ref, {
                 x: 0,
                 y: 0,
-                margin: [40, 0, 0, 80]
+                margin: [30, 0, 0, 50],
+                html2canvas: {
+                  scale: 0.6,
+                  letterRendering: true
+                }
                 // autoPaging: 'text',
               });
             }
@@ -151,7 +155,9 @@ function Index() {
         >
           <div>
             <div className="baiscInfo">
-              <div className="blockTitle">基本信息</div>
+              <div className="blockTitle" style={{ fontWeight: 600 }}>
+                基本信息
+              </div>
               <div className="blockCard">
                 <div className="baiscInfoItem">
                   <span>{basicInfo.name} / </span>
