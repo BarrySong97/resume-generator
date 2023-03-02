@@ -1,18 +1,16 @@
 "use client";
-import { memo, useState, useEffect, useRef, ReactNode } from "react";
+import { memo, useState, useEffect } from "react";
 import axios from "axios";
 import AceEditor from "react-ace";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import ReactHtmlParser from "react-html-parser";
-import Head from "next/head";
 import "react-toastify/dist/ReactToastify.css";
 import Handlebars from "handlebars/dist/handlebars";
 import styled from "styled-components";
-import "react-tabs/style/react-tabs.css";
 import "ace-builds/src-noconflict/mode-html";
 import "ace-builds/src-noconflict/mode-css";
 import "ace-builds/src-noconflict/mode-json";
-import { useLocalStorageState } from "ahooks";
+import { useDebounce, useDebounceFn, useLocalStorageState } from "ahooks";
 import { ToastContainer, toast } from "react-toastify";
 import "ace-builds/src-noconflict/theme-monokai"; // 导入 monokai 主题
 import styles from "./index.module.css";
@@ -64,28 +62,49 @@ const ThreeColumnLayout = () => {
 
         setShowHtml(html);
       } catch (error) {
-        warn("语法错误，请检查输入内容");
+        warn("error in template");
       }
     }
   };
 
+  const { run: debouceRenderHtml } = useDebounceFn(renderHtml, {
+    wait: 1000,
+  });
+
   useEffect(() => {
-    renderHtml();
+    debouceRenderHtml();
   }, [template, json]);
 
   const downloadPdf = async () => {
-    const response = await axios.post("/api/pdf", {
-      css,
-      htmlTemplate: showHtml,
-      resume: JSON.parse(json),
-    });
-    const pdfBlob = new Blob([response.data], { type: "application/pdf" });
-    const url = URL.createObjectURL(pdfBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "resume.pdf");
-    document.body.appendChild(link);
-    link.click();
+    try {
+      const response = await toast.promise(
+        axios.post(
+          "/api/pdf",
+          {
+            css,
+            htmlTemplate: showHtml,
+            resume: JSON.parse(json),
+          },
+          {
+            responseType: "arraybuffer",
+          }
+        ),
+        {
+          pending: "Generating PDF...",
+          success: "Generated PDF!",
+          error: "Failed to generate PDF",
+        }
+      );
+      const pdfBlob = new Blob([response.data], { type: "application/pdf" });
+      const url = URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "resume.pdf");
+      document.body.appendChild(link);
+      link.click();
+    } catch (error) {
+      warn("error in download pdf");
+    }
   };
 
   return (
@@ -155,10 +174,9 @@ const ThreeColumnLayout = () => {
         </Tabs>
       </div>
       <div className="flex-1 overflow-auto h-screen py-8" id="target">
-        <button onClick={downloadPdf}>download</button>
         <Page cssString={css}>{ReactHtmlParser(showHtml ?? "")}</Page>
       </div>
-      <ToastContainer />
+      <ToastContainer position="top-center" />
     </div>
   );
 };

@@ -4,6 +4,10 @@
     height: 100vh;
     width: 100%;
 
+
+
+
+
 }
 
 
@@ -11,6 +15,7 @@
     --c-bg: transparent;
     --c-scrollbar: #464544;
     --c-scrollbar-hover: #464544;
+    background-color: #272822;
 }
 
 

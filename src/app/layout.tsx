@@ -1,3 +1,4 @@
+import "react-tabs/style/react-tabs.css";
 import "./globals.css";
 
 export default function RootLayout({
@@ -7,7 +8,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css?family=Noto+Sans+SC|Nunito+Sans:400,700&display=swap"
+          rel="stylesheet"
+        ></link>
+      </head>
       <body>{children}</body>
     </html>
   );
